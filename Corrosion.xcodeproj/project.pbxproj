@@ -10,6 +10,9 @@
 		F492174A26B9DDE40092A626 /* TerrainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174926B9DDE40092A626 /* TerrainNode.swift */; };
 		F492174C26B9DF990092A626 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174B26B9DF990092A626 /* GlobalConstants.swift */; };
 		F492174E26BA11EA0092A626 /* LiquidEmitterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */; };
+		F492175026BAE6AF0092A626 /* Poison.sks in Resources */ = {isa = PBXBuildFile; fileRef = F492174F26BAE6AF0092A626 /* Poison.sks */; };
+		F492175226BC6EC20092A626 /* LiquidParticleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492175126BC6EC20092A626 /* LiquidParticleNode.swift */; };
+		F492175426BC755B0092A626 /* TileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492175326BC755B0092A626 /* TileNode.swift */; };
 		F4E270E126B87C1000155267 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E270E026B87C1000155267 /* AppDelegate.swift */; };
 		F4E270E326B87C1000155267 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = F4E270E226B87C1000155267 /* GameScene.sks */; };
 		F4E270E726B87C1000155267 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E270E626B87C1000155267 /* GameScene.swift */; };
@@ -22,6 +25,9 @@
 		F492174926B9DDE40092A626 /* TerrainNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainNode.swift; sourceTree = "<group>"; };
 		F492174B26B9DF990092A626 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidEmitterNode.swift; sourceTree = "<group>"; };
+		F492174F26BAE6AF0092A626 /* Poison.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Poison.sks; sourceTree = "<group>"; };
+		F492175126BC6EC20092A626 /* LiquidParticleNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidParticleNode.swift; sourceTree = "<group>"; };
+		F492175326BC755B0092A626 /* TileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileNode.swift; sourceTree = "<group>"; };
 		F4E270DD26B87C1000155267 /* Corrosion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Corrosion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E270E026B87C1000155267 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F4E270E226B87C1000155267 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -67,8 +73,11 @@
 				F4E270E226B87C1000155267 /* GameScene.sks */,
 				F4E270E626B87C1000155267 /* GameScene.swift */,
 				F492174926B9DDE40092A626 /* TerrainNode.swift */,
+				F492175326BC755B0092A626 /* TileNode.swift */,
 				F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */,
+				F492175126BC6EC20092A626 /* LiquidParticleNode.swift */,
 				F4E270E826B87C1000155267 /* GameViewController.swift */,
+				F492174F26BAE6AF0092A626 /* Poison.sks */,
 				F4E270EA26B87C1000155267 /* Main.storyboard */,
 				F4E270ED26B87C1100155267 /* Assets.xcassets */,
 				F4E270EF26B87C1100155267 /* Info.plist */,
@@ -134,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4E270EC26B87C1000155267 /* Main.storyboard in Resources */,
+				F492175026BAE6AF0092A626 /* Poison.sks in Resources */,
 				F4E270E326B87C1000155267 /* GameScene.sks in Resources */,
 				F4E270EE26B87C1100155267 /* Assets.xcassets in Resources */,
 			);
@@ -150,6 +160,8 @@
 				F4E270E926B87C1000155267 /* GameViewController.swift in Sources */,
 				F492174C26B9DF990092A626 /* GlobalConstants.swift in Sources */,
 				F4E270E126B87C1000155267 /* AppDelegate.swift in Sources */,
+				F492175226BC6EC20092A626 /* LiquidParticleNode.swift in Sources */,
+				F492175426BC755B0092A626 /* TileNode.swift in Sources */,
 				F492174E26BA11EA0092A626 /* LiquidEmitterNode.swift in Sources */,
 				F492174A26B9DDE40092A626 /* TerrainNode.swift in Sources */,
 			);

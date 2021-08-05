@@ -7,13 +7,13 @@
 
 import SpriteKit
 
-class TileNode: SKShapeNode { }
-
 class TerrainNode: SKNode {
     private let N_COLUMNS = 20
     private let TILE_SIZE: Int
 
     private var tiles: [[TileNode]]
+    
+    var onTileBrokenCallback: (()->Void)?
     
     init(scene: SKScene) {
         tiles = []
@@ -52,10 +52,16 @@ class TerrainNode: SKNode {
     private func createTerrainTile(at position: CGPoint) -> TileNode {
         let nodeSize = CGSize(width: TILE_SIZE, height: TILE_SIZE)
         let tile = TileNode(rectOf: nodeSize)
+        
+        tile.onTileBroken = {
+            self.onTileBroken(tile: tile)
+        }
+        
         tile.name = TERRAIN_NODE_NAME
         tile.position = position
         tile.fillColor = SKColor.brown
         tile.strokeColor = SKColor.clear
+        
         tile.physicsBody = SKPhysicsBody(rectangleOf: tile.frame.size)
         tile.physicsBody?.isDynamic = false
         tile.physicsBody?.categoryBitMask = TERRAIN_CATEGORY_BITMASK
@@ -69,11 +75,24 @@ class TerrainNode: SKNode {
         return tiles[row][column]
     }
     
+    func updateTerrain() {
+        for row in tiles {
+            for tile in row {
+                tile.update()
+            }
+        }
+    }
+    
+    func onTileBroken(tile: TileNode) {
+        removeFromTerrain(tile: tile)
+        updateTerrainAfterCollision()
+        onTileBrokenCallback?()
+    }
+    
     func handleTileCollision(liquid: SKNode, tile: SKNode) {
         guard let tile = tile as? TileNode else { return }
-        removeFromTerrain(tile: tile)
         liquid.removeFromParent()
-        updateTerrainAfterCollision()
+        tile.damage()
     }
     
     private func removeFromTerrain(tile: TileNode) {
@@ -100,14 +119,14 @@ class TerrainNode: SKNode {
     }
     
     private func shouldMoveTerrain() -> Bool {
-        return tiles[0].count < N_COLUMNS
+        return tiles[3].count < N_COLUMNS
     }
     
     private func moveRowUpwards(_ row: [TileNode]) -> Bool {
         guard let scene = scene else { fatalError("Could not move the row upwards, scene is nil") }
         let top = scene.frame.maxY
         for tile in row {
-            let delta = CGVector(dx: 0, dy: TILE_SIZE / 2)
+            let delta = CGVector(dx: 0, dy: TILE_SIZE)
             if (tile.position.y + delta.dy) > top {
                 return false
             }
@@ -131,9 +150,12 @@ class TerrainNode: SKNode {
     
     private func updateTerrainAfterCollision() {
         if !shouldMoveTerrain() { return }
-        moveTerrainUpwards()
-        let newRow = createTerrainRow(at: 0)
-        tiles.insert(newRow, at: 0)
+        let numberOfRows = 3
+        for _ in 0..<numberOfRows {
+            moveTerrainUpwards()
+            let newRow = createTerrainRow(at: 0)
+            tiles.insert(newRow, at: 0)
+        }
     }
     
 }

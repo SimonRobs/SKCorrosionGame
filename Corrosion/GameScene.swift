@@ -9,6 +9,13 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    private var balanceLabel = SKLabelNode()
+    private var currentBalance = 0 {
+        didSet {
+            balanceLabel.text = "Balance: \(currentBalance)$"
+        }
+    }
+    
     private var terrainNode: TerrainNode?
     private var liquidEmitterNodes: [UITouch: LiquidEmitterNode] = [:]
     
@@ -25,8 +32,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createSceneContent() {
+        setupBalanceLabel()
+        
         terrainNode = TerrainNode(scene: self)
         terrainNode?.createTerrain()
+        terrainNode?.onTileBrokenCallback = {
+            self.currentBalance += 1
+        }
+    }
+    
+    func setupBalanceLabel() {
+        balanceLabel.text = "Balance: \(currentBalance)$"
+        let xPos = frame.maxX - balanceLabel.frame.size.width / 2
+        let yPos = frame.maxY - balanceLabel.frame.size.height*2
+        balanceLabel.position = CGPoint(x: xPos, y: yPos)
+        balanceLabel.fontSize = 18
+        balanceLabel.fontName = "Helvetica"
+        balanceLabel.color = SKColor.white
+        addChild(balanceLabel)
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -34,10 +57,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let nodeB = contact.bodyB.node else { return }
         
         if(nodeA.name == "liquid") {
-            terrainNode?.handleTileCollision(liquid: nodeA, tile: nodeB)
+            handleLiquidTerrainCollision(liquid: nodeA, tile: nodeB, contactPoint: contact.contactPoint)
         } else if(nodeB.name == "liquid") {
-            terrainNode?.handleTileCollision(liquid: nodeB, tile: nodeA)
+            handleLiquidTerrainCollision(liquid: nodeB, tile: nodeA, contactPoint: contact.contactPoint)
         }
+    }
+    
+    func handleLiquidTerrainCollision(liquid: SKNode, tile: SKNode, contactPoint: CGPoint) {
+        terrainNode?.handleTileCollision(liquid: liquid, tile: tile)
+        triggerPoisonParticles(contactPoint: contactPoint)
+    }
+    
+    func triggerPoisonParticles(contactPoint: CGPoint) {
+        guard let particles = SKEmitterNode(fileNamed: "Poison") else { return }
+        particles.position = contactPoint
+        addChild(particles)
+        
+        let removeAfterDead = SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()])
+        particles.run(removeAfterDead)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,6 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for emitter in liquidEmitterNodes {
             emitter.value.emit()
         }
+        terrainNode?.updateTerrain()
         
     }
 }

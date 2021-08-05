@@ -8,9 +8,11 @@
 import SpriteKit
 
 class LiquidEmitterNode: SKNode {
-    private static let PARTICLE_RADIUS: CGFloat = 6
+    private let PARTICLE_RADIUS: CGFloat = 6
+    private let MAX_PARTICLES = 20
     
     private var center: CGPoint?
+    private var currentParticleCount = 0
     private var isEmitting = false
     
     init(scene: SKScene) {
@@ -22,18 +24,14 @@ class LiquidEmitterNode: SKNode {
         fatalError("Not Implemented!")
     }
     
-    private static func createParticleNode() -> SKShapeNode {
-        let particleNode = SKShapeNode.init(circleOfRadius: PARTICLE_RADIUS)
+    private func createParticleNode() -> LiquidParticleNode {
+        let particleNode = LiquidParticleNode(radius: PARTICLE_RADIUS) {
+            self.currentParticleCount -= 1
+        }
         
-        particleNode.name = LIQUID_NODE_NAME
-        particleNode.strokeColor = SKColor.clear
-        particleNode.fillColor = SKColor.green.withAlphaComponent(0.8)
-        particleNode.physicsBody = SKPhysicsBody.init(circleOfRadius: PARTICLE_RADIUS / 2)
-        particleNode.physicsBody?.categoryBitMask = LIQUID_CATEGORY_BITMASK
-        particleNode.physicsBody?.contactTestBitMask = TERRAIN_CATEGORY_BITMASK
-        particleNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                          SKAction.fadeOut(withDuration: 0.3),
-                                          SKAction.removeFromParent()]))
+//        particleNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
+//                                          SKAction.fadeOut(withDuration: 0.3),
+//                                          SKAction.removeFromParent()]))
         
         return particleNode
     }
@@ -55,9 +53,11 @@ class LiquidEmitterNode: SKNode {
     func emit() {
         if(!isEmitting) { return }
         if center == nil { return }
-        let particle = LiquidEmitterNode.createParticleNode()
+//        if currentParticleCount >= MAX_PARTICLES { return }
+        let particle = createParticleNode()
         particle.position = center!
         scene?.addChild(particle)
+        currentParticleCount += 1
     }
     
     
