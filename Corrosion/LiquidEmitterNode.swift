@@ -54,10 +54,16 @@ class LiquidEmitterNode: SKNode {
         if(!isEmitting) { return }
         if center == nil { return }
 //        if currentParticleCount >= MAX_PARTICLES { return }
-        let particle = createParticleNode()
-        particle.position = center!
-        scene?.addChild(particle)
-        currentParticleCount += 1
+        addParticle(count: 1)
+    }
+    
+    func addParticle(count: Int) {
+        for _ in 0..<count {
+            let particle = createParticleNode()
+            particle.position = center!
+            scene?.addChild(particle)
+            currentParticleCount += 1
+        }
     }
     
     

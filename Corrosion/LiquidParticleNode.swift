@@ -21,6 +21,12 @@ class LiquidParticleNode: SKShapeNode {
         fillColor = SKColor.green.withAlphaComponent(0.8)
         
         physicsBody = SKPhysicsBody.init(circleOfRadius: radius / 2)
+        
+        let rotationDeg = Int.random(in: 0...360)
+        let rotationRad = Double(rotationDeg) / 180 * Double.pi
+        let factor: Double = 50
+        physicsBody?.velocity = CGVector(dx: factor * cos(rotationRad), dy: factor * sin(rotationRad))
+        
         physicsBody?.categoryBitMask = LIQUID_CATEGORY_BITMASK
         physicsBody?.contactTestBitMask = TERRAIN_CATEGORY_BITMASK
         physicsBody?.allowsRotation = false

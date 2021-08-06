@@ -10,10 +10,14 @@ class DepthManager {
     static let instance = DepthManager()
     
     private var onDepthChanged: ((Int)->Void)?
+    private var onMilestoneReached: ((Int)->Void)?
     
     private var currentDepth: Int = 0 {
         didSet {
             onDepthChanged?(currentDepth)
+            if currentDepth % 1000 == 0 {
+                onMilestoneReached?(currentDepth)
+            }
         }
     }
     
@@ -31,6 +35,10 @@ class DepthManager {
     
     func setOnDepthChangedCallback(callback: @escaping (Int)->Void) {
         onDepthChanged = callback
+    }
+    
+    func setOnMilestoneReachedCallback(callback: @escaping (Int)->Void) {
+        onMilestoneReached = callback
     }
     
 }

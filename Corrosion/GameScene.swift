@@ -24,6 +24,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         initializeSceneVariables()
         createSceneContent()
+        DepthManager.instance.setOnMilestoneReachedCallback { depth in
+            print("Reached \(depth) m!")
+        }
     }
     
     func initializeSceneVariables() {
@@ -91,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         particles.position = contactPoint
         addChild(particles)
         
-        let removeAfterDead = SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()])
+        let removeAfterDead = SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.removeFromParent()])
         particles.run(removeAfterDead)
     }
     

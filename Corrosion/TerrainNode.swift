@@ -8,7 +8,7 @@
 import SpriteKit
 
 class TerrainNode: SKNode {
-    private let N_COLUMNS = 20
+    private let N_COLUMNS = 10
     private let TILE_SIZE: Int
 
     private var tiles: [[TileNode]]
