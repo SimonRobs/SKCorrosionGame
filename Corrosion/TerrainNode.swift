@@ -33,6 +33,7 @@ class TerrainNode: SKNode {
         for tileMidY in stride(from: bottom, to: midY, by: TILE_SIZE) {
             tiles.append(createTerrainRow(at: tileMidY))
         }
+        DepthManager.instance.setDepth(depth: tiles.count)
     }
     
     private func createTerrainRow(at tileMidY: Int) -> [TileNode] {
@@ -119,7 +120,10 @@ class TerrainNode: SKNode {
     }
     
     private func shouldMoveTerrain() -> Bool {
-        return tiles[3].count < N_COLUMNS
+        for i in 0..<4 {
+            if tiles[i].count < N_COLUMNS { return true }
+        }
+        return false
     }
     
     private func moveRowUpwards(_ row: [TileNode]) -> Bool {
@@ -155,6 +159,7 @@ class TerrainNode: SKNode {
             moveTerrainUpwards()
             let newRow = createTerrainRow(at: 0)
             tiles.insert(newRow, at: 0)
+            DepthManager.instance.incrementDepth()
         }
     }
     

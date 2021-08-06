@@ -9,12 +9,14 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    private var balanceLabel = SKLabelNode()
+    private let balanceLabel = SKLabelNode()
     private var currentBalance = 0 {
         didSet {
             balanceLabel.text = "Balance: \(currentBalance)$"
         }
     }
+    
+    private let depthLabel = SKLabelNode()
     
     private var terrainNode: TerrainNode?
     private var liquidEmitterNodes: [UITouch: LiquidEmitterNode] = [:]
@@ -33,6 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createSceneContent() {
         setupBalanceLabel()
+        setupDepthLabel()
         
         terrainNode = TerrainNode(scene: self)
         terrainNode?.createTerrain()
@@ -42,7 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupBalanceLabel() {
-        balanceLabel.text = "Balance: \(currentBalance)$"
+        balanceLabel.text = "Balance: \(currentBalance) $"
         let xPos = frame.maxX - balanceLabel.frame.size.width / 2
         let yPos = frame.maxY - balanceLabel.frame.size.height*2
         balanceLabel.position = CGPoint(x: xPos, y: yPos)
@@ -50,6 +53,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         balanceLabel.fontName = "Helvetica"
         balanceLabel.color = SKColor.white
         addChild(balanceLabel)
+    }
+    
+    func setupDepthLabel() {
+        let depthManager = DepthManager.instance
+        depthManager.setOnDepthChangedCallback { depth in
+            self.depthLabel.text = "Depth: \(depth) m"
+        }
+        depthLabel.text = "Depth: \(depthManager.getDepth()) m"
+        let xPos = depthLabel.frame.size.width / 2
+        let yPos = frame.maxY - depthLabel.frame.size.height*2
+        depthLabel.position = CGPoint(x: xPos, y: yPos)
+        depthLabel.fontSize = 18
+        depthLabel.fontName = "Helvetica"
+        depthLabel.color = SKColor.white
+        addChild(depthLabel)
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
