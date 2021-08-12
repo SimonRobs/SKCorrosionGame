@@ -13,13 +13,14 @@ class TerrainNode: SKNode {
 
     private var tiles: [[TileNode]]
     
-    var onTileBrokenCallback: (()->Void)?
-    
     init(scene: SKScene) {
         tiles = []
         TILE_SIZE = Int(scene.frame.width / CGFloat(N_COLUMNS))
         super.init()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onLiquidTileCollision), name: .onLiquidTileCollision, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onTileBroken), name: .onTileBroken, object: nil)
+        
         scene.addChild(self)
     }
     
@@ -57,11 +58,8 @@ class TerrainNode: SKNode {
     
     private func createTerrainTile(at position: CGPoint) -> TileNode {
         let nodeSize = CGSize(width: TILE_SIZE, height: TILE_SIZE)
-        let tile = TileNode(size: nodeSize, maxIntegrity: 100, tileType: .dirt)
+        let tile = TileNode(size: nodeSize, maxIntegrity: 100)
         tile.position = position
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onTileBroken), name: .onTileBroken, object: nil)
-        
         return tile
     }
     
@@ -84,7 +82,6 @@ class TerrainNode: SKNode {
         guard let tile = notification.object as? TileNode else { fatalError("onTileBroken triggered by object other than TileNode") }
         removeFromTerrain(tile: tile)
         updateTerrainAfterCollision()
-        onTileBrokenCallback?()
     }
     
     @objc private func onLiquidTileCollision(_ notification: Notification) {

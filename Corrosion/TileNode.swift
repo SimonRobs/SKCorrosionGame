@@ -7,21 +7,18 @@
 
 import SpriteKit
 
-class TileNode: SKShapeNode {
+class TileNode: SKSpriteNode {
     private let maxIntegrity: CGFloat
     private var integrity: CGFloat
     private var corrosionFactor: CGFloat = 0
     
-    init(size: CGSize, maxIntegrity: CGFloat, tileType: TileType) {
+    init(size: CGSize, maxIntegrity: CGFloat) {
         self.maxIntegrity = maxIntegrity
         integrity = maxIntegrity
+        let texture = SKTexture(imageNamed: "Dirt")
+        super.init(texture: texture, color: .clear, size: size)
         
-        super.init()
-        
-        path = CGPath(rect: CGRect(origin: .zero, size: size), transform: nil)
         name = TERRAIN_NODE_NAME
-        fillColor = SKColor.brown
-        strokeColor = SKColor.clear
         
         physicsBody = SKPhysicsBody(rectangleOf: frame.size)
         physicsBody?.isDynamic = false
@@ -48,33 +45,38 @@ class TileNode: SKShapeNode {
     
     private func updateColor() {
         let factor = 1 - integrity / maxIntegrity
-        let initialColor = SKColor.brown.toComponents()
-        let finalColor = SKColor.green.toComponents()
-        let interpolated = simd_mix(initialColor, finalColor, simd_float4(repeating: Float(factor)))
-        fillColor = interpolated.toSKColor()
-        
-        run(SKAction.colorize(with: UIColor.green, colorBlendFactor: factor, duration: 0.01))
+        let changeColor = SKAction.colorize(with: .green, colorBlendFactor: factor, duration: 0.01)
+        let changeSize = SKAction.scale(by: 1 - factor, duration: 0.01)
+        run(SKAction.sequence([changeColor, changeSize]))
     }
     
     private func onTileBroken() {
+        physicsBody = nil
         NotificationCenter.default.post(Notification(name: .onTileBroken, object: self))
     }
 }
 
-// Extensions to allow for interpolation between color values
-extension SKColor {
-    func toComponents() -> simd_float4 {
-        var red = CGFloat(0)
-        var green = CGFloat(0)
-        var blue = CGFloat(0)
-        var alpha = CGFloat(0)
-        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        return simd_float4(x: Float(red), y: Float(green), z: Float(blue), w: Float(alpha))
-    }
-}
-
-extension simd_float4 {
-    func toSKColor() -> SKColor {
-        return SKColor(red: CGFloat(x), green: CGFloat(y), blue: CGFloat(z), alpha: CGFloat(w))
-    }
-}
+//func blendSKColors(_ color1: SKColor, _ color2: SKColor, by factor: CGFloat) -> SKColor {
+//    let initialColor = SKColor.brown.toComponents()
+//    let finalColor = SKColor.green.toComponents()
+//    let interpolated = simd_mix(initialColor, finalColor, simd_float4(repeating: Float(factor)))
+//    return interpolated.toSKColor()
+//}
+//
+//// Extensions to allow for interpolation between color values
+//extension SKColor {
+//    func toComponents() -> simd_float4 {
+//        var red = CGFloat(0)
+//        var green = CGFloat(0)
+//        var blue = CGFloat(0)
+//        var alpha = CGFloat(0)
+//        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+//        return simd_float4(x: Float(red), y: Float(green), z: Float(blue), w: Float(alpha))
+//    }
+//}
+//
+//extension simd_float4 {
+//    func toSKColor() -> SKColor {
+//        return SKColor(red: CGFloat(x), green: CGFloat(y), blue: CGFloat(z), alpha: CGFloat(w))
+//    }
+//}

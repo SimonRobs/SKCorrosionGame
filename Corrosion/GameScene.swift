@@ -44,9 +44,6 @@ class GameScene: SKScene {
         
         terrainNode = TerrainNode(scene: self)
         terrainNode?.createTerrain()
-        terrainNode?.onTileBrokenCallback = {
-            self.currentBalance += 1
-        }
     }
     
     func setupBalanceLabel() {
@@ -73,8 +70,13 @@ class GameScene: SKScene {
     }
     
     func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onTileBroken), name: .onTileBroken, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onDepthChanged), name: .onDepthChanged, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onLiquidTileCollision), name: .onLiquidTileCollision, object: nil)
+    }
+    
+    @objc private func onTileBroken(_ notification: Notification) {
+            self.currentBalance += 1
     }
     
     @objc private func onDepthChanged(_ notification: Notification) {

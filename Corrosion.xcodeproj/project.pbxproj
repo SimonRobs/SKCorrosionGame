@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F404F1F626C55769009564BB /* TileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404F1F526C55769009564BB /* TileType.swift */; };
 		F404F1F826C5621A009564BB /* CollisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404F1F726C5621A009564BB /* CollisionController.swift */; };
+		F404F1FA26C5A974009564BB /* DirtTileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404F1F926C5A974009564BB /* DirtTileNode.swift */; };
 		F492174A26B9DDE40092A626 /* TerrainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174926B9DDE40092A626 /* TerrainNode.swift */; };
 		F492174C26B9DF990092A626 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174B26B9DF990092A626 /* Constants.swift */; };
 		F492174E26BA11EA0092A626 /* LiquidEmitterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */; };
@@ -25,8 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F404F1F526C55769009564BB /* TileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileType.swift; sourceTree = "<group>"; };
 		F404F1F726C5621A009564BB /* CollisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionController.swift; sourceTree = "<group>"; };
+		F404F1F926C5A974009564BB /* DirtTileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirtTileNode.swift; sourceTree = "<group>"; };
 		F492174926B9DDE40092A626 /* TerrainNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainNode.swift; sourceTree = "<group>"; };
 		F492174B26B9DF990092A626 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidEmitterNode.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 				F4E270E626B87C1000155267 /* GameScene.swift */,
 				F492174926B9DDE40092A626 /* TerrainNode.swift */,
 				F492175326BC755B0092A626 /* TileNode.swift */,
-				F404F1F526C55769009564BB /* TileType.swift */,
+				F404F1F926C5A974009564BB /* DirtTileNode.swift */,
 				F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */,
 				F492175126BC6EC20092A626 /* LiquidParticleNode.swift */,
 				F492175526BDE03E0092A626 /* DepthController.swift */,
@@ -172,7 +172,7 @@
 				F492175626BDE03E0092A626 /* DepthController.swift in Sources */,
 				F492175226BC6EC20092A626 /* LiquidParticleNode.swift in Sources */,
 				F492175426BC755B0092A626 /* TileNode.swift in Sources */,
-				F404F1F626C55769009564BB /* TileType.swift in Sources */,
+				F404F1FA26C5A974009564BB /* DirtTileNode.swift in Sources */,
 				F404F1F826C5621A009564BB /* CollisionController.swift in Sources */,
 				F492174E26BA11EA0092A626 /* LiquidEmitterNode.swift in Sources */,
 				F492174A26B9DDE40092A626 /* TerrainNode.swift in Sources */,
