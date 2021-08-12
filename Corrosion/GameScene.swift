@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene {
     
     private let balanceLabel = SKLabelNode()
     private var currentBalance = 0 {
@@ -24,16 +24,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         initializeSceneVariables()
         createSceneContent()
-        DepthManager.instance.setOnMilestoneReachedCallback { depth in
-            print("Reached \(depth) m!")
-        }
+        addNotificationObservers()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initializeSceneVariables() {
         self.backgroundColor = .black
         self.scaleMode = .aspectFit
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
-        physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = CollisionController.instance
     }
     
     func createSceneContent() {
@@ -59,10 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupDepthLabel() {
-        let depthManager = DepthManager.instance
-        depthManager.setOnDepthChangedCallback { depth in
-            self.depthLabel.text = "Depth: \(depth) m"
-        }
+        let depthManager = DepthController.instance
         depthLabel.text = "Depth: \(depthManager.getDepth()) m"
         let xPos = depthLabel.frame.size.width / 2
         let yPos = frame.maxY - depthLabel.frame.size.height*2
@@ -72,24 +71,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         depthLabel.color = SKColor.white
         addChild(depthLabel)
     }
-
-    func didBegin(_ contact: SKPhysicsContact) {
-        guard let nodeA = contact.bodyA.node else { return }
-        guard let nodeB = contact.bodyB.node else { return }
-        
-        if(nodeA.name == "liquid") {
-            handleLiquidTerrainCollision(liquid: nodeA, tile: nodeB, contactPoint: contact.contactPoint)
-        } else if(nodeB.name == "liquid") {
-            handleLiquidTerrainCollision(liquid: nodeB, tile: nodeA, contactPoint: contact.contactPoint)
+    
+    func addNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onDepthChanged), name: .onDepthChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onLiquidTileCollision), name: .onLiquidTileCollision, object: nil)
+    }
+    
+    @objc private func onDepthChanged(_ notification: Notification) {
+        guard let depth = notification.object as? CGFloat else { return }
+        self.depthLabel.text = "Depth: \(depth) m"
+    }
+    
+    @objc private func onLiquidTileCollision(_ notification: Notification) {
+        if let collisionData = notification.object as? LiquidTileCollision {
+            triggerPoisonParticles(contactPoint: collisionData.contactPoint)
         }
     }
     
-    func handleLiquidTerrainCollision(liquid: SKNode, tile: SKNode, contactPoint: CGPoint) {
-        terrainNode?.handleTileCollision(liquid: liquid, tile: tile)
-        triggerPoisonParticles(contactPoint: contactPoint)
-    }
-    
-    func triggerPoisonParticles(contactPoint: CGPoint) {
+    private func triggerPoisonParticles(contactPoint: CGPoint) {
         guard let particles = SKEmitterNode(fileNamed: "Poison") else { return }
         particles.position = contactPoint
         addChild(particles)

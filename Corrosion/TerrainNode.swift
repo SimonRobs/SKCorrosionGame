@@ -19,11 +19,16 @@ class TerrainNode: SKNode {
         tiles = []
         TILE_SIZE = Int(scene.frame.width / CGFloat(N_COLUMNS))
         super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(onLiquidTileCollision), name: .onLiquidTileCollision, object: nil)
         scene.addChild(self)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("Not Implemented!")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func createTerrain() {
@@ -33,7 +38,7 @@ class TerrainNode: SKNode {
         for tileMidY in stride(from: bottom, to: midY, by: TILE_SIZE) {
             tiles.append(createTerrainRow(at: tileMidY))
         }
-        DepthManager.instance.setDepth(depth: tiles.count)
+        DepthController.instance.setDepth(depth: tiles.count)
     }
     
     private func createTerrainRow(at tileMidY: Int) -> [TileNode] {
@@ -52,20 +57,11 @@ class TerrainNode: SKNode {
     
     private func createTerrainTile(at position: CGPoint) -> TileNode {
         let nodeSize = CGSize(width: TILE_SIZE, height: TILE_SIZE)
-        let tile = TileNode(rectOf: nodeSize)
-        
-        tile.onTileBroken = {
-            self.onTileBroken(tile: tile)
-        }
-        
-        tile.name = TERRAIN_NODE_NAME
+        let tile = TileNode(size: nodeSize, maxIntegrity: 100, tileType: .dirt)
         tile.position = position
-        tile.fillColor = SKColor.brown
-        tile.strokeColor = SKColor.clear
         
-        tile.physicsBody = SKPhysicsBody(rectangleOf: tile.frame.size)
-        tile.physicsBody?.isDynamic = false
-        tile.physicsBody?.categoryBitMask = TERRAIN_CATEGORY_BITMASK
+        NotificationCenter.default.addObserver(self, selector: #selector(onTileBroken), name: .onTileBroken, object: nil)
+        
         return tile
     }
     
@@ -84,16 +80,23 @@ class TerrainNode: SKNode {
         }
     }
     
-    func onTileBroken(tile: TileNode) {
+    @objc func onTileBroken(_ notification: NSNotification) {
+        guard let tile = notification.object as? TileNode else { fatalError("onTileBroken triggered by object other than TileNode") }
         removeFromTerrain(tile: tile)
         updateTerrainAfterCollision()
         onTileBrokenCallback?()
     }
     
-    func handleTileCollision(liquid: SKNode, tile: SKNode) {
+    @objc private func onLiquidTileCollision(_ notification: Notification) {
+        if let collisionData = notification.object as? LiquidTileCollision {
+            handleTileCollision(liquid: collisionData.liquid, tile: collisionData.tile)
+        }
+    }
+    
+    private func handleTileCollision(liquid: SKNode, tile: SKNode) {
         guard let tile = tile as? TileNode else { return }
         liquid.removeFromParent()
-        tile.damage()
+        tile.damage(by: 1)
     }
     
     private func removeFromTerrain(tile: TileNode) {
@@ -159,7 +162,7 @@ class TerrainNode: SKNode {
             moveTerrainUpwards()
             let newRow = createTerrainRow(at: 0)
             tiles.insert(newRow, at: 0)
-            DepthManager.instance.incrementDepth()
+            DepthController.instance.incrementDepth()
         }
     }
     
