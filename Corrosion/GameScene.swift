@@ -54,6 +54,7 @@ class GameScene: SKScene {
         balanceLabel.fontSize = 18
         balanceLabel.fontName = "Helvetica"
         balanceLabel.color = SKColor.white
+        balanceLabel.zPosition = 100
         addChild(balanceLabel)
     }
     
@@ -66,6 +67,7 @@ class GameScene: SKScene {
         depthLabel.fontSize = 18
         depthLabel.fontName = "Helvetica"
         depthLabel.color = SKColor.white
+        depthLabel.zPosition = 100
         addChild(depthLabel)
     }
     

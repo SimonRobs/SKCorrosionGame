@@ -11,11 +11,12 @@ class TileNode: SKSpriteNode {
     private let maxIntegrity: CGFloat
     private var integrity: CGFloat
     private var corrosionFactor: CGFloat = 0
+    private var tileBroken = false
     
     init(size: CGSize, maxIntegrity: CGFloat) {
         self.maxIntegrity = maxIntegrity
         integrity = maxIntegrity
-        let texture = SKTexture(imageNamed: "Dirt")
+        let texture = SKTexture(imageNamed: "Stone")
         super.init(texture: texture, color: .clear, size: size)
         
         name = TERRAIN_NODE_NAME
@@ -36,6 +37,7 @@ class TileNode: SKSpriteNode {
     }
     
     func update() {
+        if tileBroken { return }
         integrity -= corrosionFactor
         updateColor()
         if integrity <= 0 {
@@ -44,13 +46,16 @@ class TileNode: SKSpriteNode {
     }
     
     private func updateColor() {
-        let factor = 1 - integrity / maxIntegrity
-        let changeColor = SKAction.colorize(with: .green, colorBlendFactor: factor, duration: 0.01)
-        let changeSize = SKAction.scale(by: 1 - factor, duration: 0.01)
-        run(SKAction.sequence([changeColor, changeSize]))
+        let factor = integrity / maxIntegrity
+        if factor < 1.0 {
+            let changeColor = SKAction.colorize(with: .green, colorBlendFactor: 1 - factor, duration: 0)
+            let changeSize = SKAction.scale(to: factor, duration: 0)
+            run(SKAction.sequence([changeColor, changeSize]))
+        }
     }
     
     private func onTileBroken() {
+        tileBroken = true
         physicsBody = nil
         NotificationCenter.default.post(Notification(name: .onTileBroken, object: self))
     }

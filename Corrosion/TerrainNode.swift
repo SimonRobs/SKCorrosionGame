@@ -58,7 +58,7 @@ class TerrainNode: SKNode {
     
     private func createTerrainTile(at position: CGPoint) -> TileNode {
         let nodeSize = CGSize(width: TILE_SIZE, height: TILE_SIZE)
-        let tile = TileNode(size: nodeSize, maxIntegrity: 100)
+        let tile = TileNode(size: nodeSize, maxIntegrity: 200)
         tile.position = position
         return tile
     }
@@ -93,7 +93,7 @@ class TerrainNode: SKNode {
     private func handleTileCollision(liquid: SKNode, tile: SKNode) {
         guard let tile = tile as? TileNode else { return }
         liquid.removeFromParent()
-        tile.damage(by: 1)
+        tile.damage(by: 5)
     }
     
     private func removeFromTerrain(tile: TileNode) {
