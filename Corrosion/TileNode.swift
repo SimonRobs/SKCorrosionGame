@@ -8,27 +8,24 @@
 import SpriteKit
 
 class TileNode: SKSpriteNode {
-    private let maxIntegrity: CGFloat
-    private var integrity: CGFloat
+    var maxIntegrity: CGFloat?
+    var minDepth: CGFloat?
+    var maxDepth: CGFloat?
+    var integrity: CGFloat?
+    
     private var corrosionFactor: CGFloat = 0
     private var tileBroken = false
     
-    init(size: CGSize, maxIntegrity: CGFloat) {
-        self.maxIntegrity = maxIntegrity
-        integrity = maxIntegrity
-        let texture = SKTexture(imageNamed: "Stone")
-        super.init(texture: texture, color: .clear, size: size)
+    init(size: CGSize) {
+        super.init(texture: nil, color: .clear, size: size)
         
         name = TERRAIN_NODE_NAME
-        
         physicsBody = SKPhysicsBody(rectangleOf: frame.size)
         physicsBody?.isDynamic = false
         physicsBody?.categoryBitMask = TERRAIN_CATEGORY_BITMASK
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.maxIntegrity = 0
-        self.integrity = 0
         super.init(coder: aDecoder)
     }
     
@@ -37,16 +34,17 @@ class TileNode: SKSpriteNode {
     }
     
     func update() {
-        if tileBroken { return }
-        integrity -= corrosionFactor
+        if tileBroken || integrity == nil { return }
+        integrity! -= corrosionFactor
         updateColor()
-        if integrity <= 0 {
+        if integrity! <= 0 {
             onTileBroken()
         }
     }
     
     private func updateColor() {
-        let factor = integrity / maxIntegrity
+        if integrity == nil || maxIntegrity == nil { return }
+        let factor = integrity! / maxIntegrity!
         if factor < 1.0 {
             let changeColor = SKAction.colorize(with: .green, colorBlendFactor: 1 - factor, duration: 0)
             let changeSize = SKAction.scale(to: factor, duration: 0)

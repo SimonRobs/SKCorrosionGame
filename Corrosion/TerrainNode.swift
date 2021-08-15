@@ -75,7 +75,8 @@ class TerrainNode: SKNode {
     
     private func createTerrainTile(at position: CGPoint) -> TileNode {
         let nodeSize = CGSize(width: TILE_SIZE, height: TILE_SIZE)
-        let tile = TileNode(size: nodeSize, maxIntegrity: 200)
+        let random = Double.random(in: 0...1)
+        let tile = random > 0.2 ? DirtTileNode(size: nodeSize) : StoneTileNode(size: nodeSize)
         tile.position = position
         return tile
     }

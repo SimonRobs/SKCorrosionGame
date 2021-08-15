@@ -1,20 +1,20 @@
 //
-//  DirtTileNode.swift
+//  StoneTileNode.swift
 //  Corrosion
 //
-//  Created by Simon Robatto on 2021-08-12.
+//  Created by Simon Robatto on 2021-08-15.
 //
 
 import SpriteKit
 
-class DirtTileNode: TileNode {
+class StoneTileNode: TileNode {
     override init(size: CGSize) {
         super.init(size: size)
-        maxIntegrity = 100
+        maxIntegrity = 500
         integrity = maxIntegrity
-        minDepth = 0
-        maxDepth = 100
-        texture = SKTexture(imageNamed: "Dirt")
+        minDepth = 50
+        maxDepth = 1000
+        texture = SKTexture(imageNamed: "Stone")
     }
     
     required init?(coder aDecoder: NSCoder) {
