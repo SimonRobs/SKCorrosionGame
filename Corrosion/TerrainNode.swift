@@ -10,7 +10,7 @@ import GameplayKit
 
 class TerrainNode: SKNode {
     private let N_COLUMNS = 10
-    private let TILE_SIZE: Int
+    private let TILE_SIZE: CGFloat
 
     private var tiles: [[TileNode]]
     
@@ -18,7 +18,7 @@ class TerrainNode: SKNode {
     
     init(scene: SKScene) {
         tiles = []
-        TILE_SIZE = Int(scene.frame.width / CGFloat(N_COLUMNS))
+        TILE_SIZE = scene.frame.width / CGFloat(N_COLUMNS)
         noiseMap = GKNoiseMap(GKNoise(GKPerlinNoiseSource()), size: vector_double2(Double(scene.frame.width), Double(scene.frame.height)), origin: vector_double2(Double(scene.anchorPoint.x), Double(scene.anchorPoint.y)), sampleCount: vector_int2(Int32(scene.frame.width), Int32(scene.frame.height)), seamless: true)
         
         super.init()
@@ -51,19 +51,19 @@ class TerrainNode: SKNode {
     
     func createTerrain() {
         guard let scene = scene else { fatalError("Could not create terrain, scene is nil") }
-        let bottom = Int(scene.frame.minY)
-        let midY = Int(scene.frame.midY)
+        let bottom = scene.frame.minY
+        let midY = scene.frame.midY
         for tileMidY in stride(from: bottom, to: midY, by: TILE_SIZE) {
             tiles.append(createTerrainRow(at: tileMidY))
         }
         DepthController.instance.setDepth(depth: tiles.count)
     }
     
-    private func createTerrainRow(at tileMidY: Int) -> [TileNode] {
+    private func createTerrainRow(at tileMidY: CGFloat) -> [TileNode] {
         guard let scene = scene else { fatalError("Could not create terrain row, scene is nil") }
         var terrainRow: [TileNode] = []
-        let left = Int(scene.frame.minX)
-        let right = Int(scene.frame.maxX)
+        let left = scene.frame.minX
+        let right = scene.frame.maxX
         for tileMidX in stride(from: left, to: right, by: TILE_SIZE) {
             let tilePosition = CGPoint(x: tileMidX + TILE_SIZE / 2, y: tileMidY - TILE_SIZE / 2)
             let tile = createTerrainTile(at: tilePosition)
@@ -154,7 +154,7 @@ class TerrainNode: SKNode {
             if (tile.position.y + delta.dy) > top {
                 return false
             }
-            tile.run(SKAction.move(by: delta, duration: 0.1))
+            tile.run(SKAction.move(by: delta, duration: 0.3))
         }
         return true
     }
@@ -174,7 +174,7 @@ class TerrainNode: SKNode {
     
     private func updateTerrainAfterCollision() {
         if !shouldMoveTerrain() { return }
-        let numberOfRows = 3
+        let numberOfRows = 2
         for _ in 0..<numberOfRows {
             moveTerrainUpwards()
             let newRow = createTerrainRow(at: 0)

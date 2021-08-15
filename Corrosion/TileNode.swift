@@ -30,6 +30,11 @@ class TileNode: SKSpriteNode {
         super.init(coder: aDecoder)
     }
     
+    deinit {
+        particleEmitter?.removeFromParent()
+        particleEmitter = nil
+    }
+    
     func damage(by amount: CGFloat) {
         corrosionAmount += amount
     }

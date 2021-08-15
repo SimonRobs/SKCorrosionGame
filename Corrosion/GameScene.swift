@@ -22,9 +22,9 @@ class GameScene: SKScene {
     private var liquidEmitterNodes: [UITouch: LiquidEmitterNode] = [:]
     
     override func didMove(to view: SKView) {
+        addNotificationObservers()
         initializeSceneVariables()
         createSceneContent()
-        addNotificationObservers()
     }
     
     deinit {
@@ -78,7 +78,7 @@ class GameScene: SKScene {
     }
     
     @objc private func onTileBroken(_ notification: Notification) {
-            self.currentBalance += 1
+        self.currentBalance += 1
     }
     
     @objc private func onDepthChanged(_ notification: Notification) {
@@ -86,21 +86,7 @@ class GameScene: SKScene {
         self.depthLabel.text = "Depth: \(depth) m"
     }
     
-    @objc private func onLiquidTileCollision(_ notification: Notification) {
-        if let collisionData = notification.object as? LiquidTileCollision {
-//            triggerPoisonParticles(tile: collisionData.tile)
-        }
-    }
-    
-    private func triggerPoisonParticles(tile: SKNode) {
-        guard let particles = SKEmitterNode(fileNamed: "Poison") else { return }
-        particles.position = tile.position
-        particles.particlePositionRange = CGVector(dx: tile.frame.width, dy: tile.frame.height)
-        addChild(particles)
-        
-        let removeAfterDead = SKAction.sequence([SKAction.wait(forDuration: 0.5), SKAction.removeFromParent()])
-        particles.run(removeAfterDead)
-    }
+    @objc private func onLiquidTileCollision(_ notification: Notification) { }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
