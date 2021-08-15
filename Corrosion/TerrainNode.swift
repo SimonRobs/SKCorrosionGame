@@ -144,6 +144,8 @@ class TerrainNode: SKNode {
         return false
     }
     
+    // Returns true if the row was moved up.
+    // Returns false if moving the row upwards makes it disappear from the screen
     private func moveRowUpwards(_ row: [TileNode]) -> Bool {
         guard let scene = scene else { fatalError("Could not move the row upwards, scene is nil") }
         let top = scene.frame.maxY
@@ -160,8 +162,8 @@ class TerrainNode: SKNode {
     private func moveTerrainUpwards() {
         var toRemove: [[TileNode]] = []
         for row in tiles {
-            let completed = moveRowUpwards(row)
-            if !completed {
+            let couldMoveUpwards = moveRowUpwards(row)
+            if !couldMoveUpwards {
                 toRemove.append(row)
             }
         }
