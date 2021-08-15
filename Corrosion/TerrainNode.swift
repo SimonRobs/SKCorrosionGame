@@ -6,6 +6,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 class TerrainNode: SKNode {
     private let N_COLUMNS = 10
@@ -13,13 +14,29 @@ class TerrainNode: SKNode {
 
     private var tiles: [[TileNode]]
     
+    private var noiseMap: GKNoiseMap
+    
     init(scene: SKScene) {
         tiles = []
         TILE_SIZE = Int(scene.frame.width / CGFloat(N_COLUMNS))
+        noiseMap = GKNoiseMap(GKNoise(GKPerlinNoiseSource()), size: vector_double2(Double(scene.frame.width), Double(scene.frame.height)), origin: vector_double2(Double(scene.anchorPoint.x), Double(scene.anchorPoint.y)), sampleCount: vector_int2(Int32(scene.frame.width), Int32(scene.frame.height)), seamless: true)
+        
         super.init()
         
         NotificationCenter.default.addObserver(self, selector: #selector(onLiquidTileCollision), name: .onLiquidTileCollision, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onTileBroken), name: .onTileBroken, object: nil)
+        
+//        for x in stride(from: 0, to: Int32(scene.frame.width) , by: TILE_SIZE){
+//            for y in stride(from: 0, to: Int32(scene.frame.height) , by: TILE_SIZE) {
+//                let value = noiseMap.value(at: vector_int2(x, y))
+//                let c = CGFloat(0.5 * (1 + value))
+//                let node = SKShapeNode(rectOf: CGSize(width: TILE_SIZE, height: TILE_SIZE))
+//                node.strokeColor = .clear
+//                node.position = CGPoint(x: Int(x), y: Int(scene.frame.height - CGFloat(y)))
+//                node.fillColor = SKColor(red: c, green: c, blue: c, alpha: 0.8)
+//                addChild(node)
+//            }
+//        }
         
         scene.addChild(self)
     }
