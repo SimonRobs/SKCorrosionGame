@@ -14,6 +14,7 @@ class StoneTileNode: TileNode {
         integrity = maxIntegrity
         minDepth = 50
         maxDepth = 1000
+        particleEmitter = SKEmitterNode(fileNamed: "Poison")
         texture = SKTexture(imageNamed: "Stone")
     }
     

@@ -12,8 +12,9 @@ class TileNode: SKSpriteNode {
     var minDepth: CGFloat?
     var maxDepth: CGFloat?
     var integrity: CGFloat?
+    var particleEmitter: SKEmitterNode?
     
-    private var corrosionFactor: CGFloat = 0
+    private var corrosionAmount: CGFloat = 0
     private var tileBroken = false
     
     init(size: CGSize) {
@@ -30,13 +31,14 @@ class TileNode: SKSpriteNode {
     }
     
     func damage(by amount: CGFloat) {
-        corrosionFactor += amount
+        corrosionAmount += amount
     }
     
     func update() {
         if tileBroken || integrity == nil { return }
-        integrity! -= corrosionFactor
+        integrity! -= corrosionAmount
         updateColor()
+        updateCorrosionEffect()
         if integrity! <= 0 {
             onTileBroken()
         }
@@ -52,9 +54,25 @@ class TileNode: SKSpriteNode {
         }
     }
     
+    private func updateCorrosionEffect() {
+        if particleEmitter == nil || scene == nil { return }
+        if integrity == nil || maxIntegrity == nil { return }
+        let factor = integrity! / maxIntegrity!
+        
+        particleEmitter!.position = position
+        particleEmitter!.particlePositionRange = CGVector(dx: frame.width, dy: frame.height)
+        particleEmitter!.particleLifetime = factor
+        particleEmitter!.alpha = factor
+        if particleEmitter!.parent == nil && corrosionAmount > 0 {
+            scene!.addChild(particleEmitter!)
+        }
+    }
+    
     private func onTileBroken() {
         tileBroken = true
         physicsBody = nil
+        particleEmitter?.removeFromParent()
+        particleEmitter = nil
         NotificationCenter.default.post(Notification(name: .onTileBroken, object: self))
     }
 }

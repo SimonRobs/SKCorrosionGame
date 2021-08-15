@@ -10,10 +10,11 @@
 		F404F1F826C5621A009564BB /* CollisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404F1F726C5621A009564BB /* CollisionController.swift */; };
 		F404F1FA26C5A974009564BB /* DirtTileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404F1F926C5A974009564BB /* DirtTileNode.swift */; };
 		F404F1FC26C950D7009564BB /* StoneTileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404F1FB26C950D7009564BB /* StoneTileNode.swift */; };
+		F404F1FF26C95503009564BB /* Poison.sks in Resources */ = {isa = PBXBuildFile; fileRef = F404F1FD26C95503009564BB /* Poison.sks */; };
+		F404F20026C95503009564BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F404F1FE26C95503009564BB /* Assets.xcassets */; };
 		F492174A26B9DDE40092A626 /* TerrainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174926B9DDE40092A626 /* TerrainNode.swift */; };
 		F492174C26B9DF990092A626 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174B26B9DF990092A626 /* Constants.swift */; };
 		F492174E26BA11EA0092A626 /* LiquidEmitterNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */; };
-		F492175026BAE6AF0092A626 /* Poison.sks in Resources */ = {isa = PBXBuildFile; fileRef = F492174F26BAE6AF0092A626 /* Poison.sks */; };
 		F492175226BC6EC20092A626 /* LiquidParticleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492175126BC6EC20092A626 /* LiquidParticleNode.swift */; };
 		F492175426BC755B0092A626 /* TileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492175326BC755B0092A626 /* TileNode.swift */; };
 		F492175626BDE03E0092A626 /* DepthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F492175526BDE03E0092A626 /* DepthController.swift */; };
@@ -22,17 +23,17 @@
 		F4E270E726B87C1000155267 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E270E626B87C1000155267 /* GameScene.swift */; };
 		F4E270E926B87C1000155267 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E270E826B87C1000155267 /* GameViewController.swift */; };
 		F4E270EC26B87C1000155267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E270EA26B87C1000155267 /* Main.storyboard */; };
-		F4E270EE26B87C1100155267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4E270ED26B87C1100155267 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F404F1F726C5621A009564BB /* CollisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollisionController.swift; sourceTree = "<group>"; };
 		F404F1F926C5A974009564BB /* DirtTileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirtTileNode.swift; sourceTree = "<group>"; };
 		F404F1FB26C950D7009564BB /* StoneTileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneTileNode.swift; sourceTree = "<group>"; };
+		F404F1FD26C95503009564BB /* Poison.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Poison.sks; sourceTree = "<group>"; };
+		F404F1FE26C95503009564BB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F492174926B9DDE40092A626 /* TerrainNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerrainNode.swift; sourceTree = "<group>"; };
 		F492174B26B9DF990092A626 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F492174D26BA11EA0092A626 /* LiquidEmitterNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidEmitterNode.swift; sourceTree = "<group>"; };
-		F492174F26BAE6AF0092A626 /* Poison.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Poison.sks; sourceTree = "<group>"; };
 		F492175126BC6EC20092A626 /* LiquidParticleNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidParticleNode.swift; sourceTree = "<group>"; };
 		F492175326BC755B0092A626 /* TileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileNode.swift; sourceTree = "<group>"; };
 		F492175526BDE03E0092A626 /* DepthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthController.swift; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		F4E270E626B87C1000155267 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		F4E270E826B87C1000155267 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F4E270EB26B87C1000155267 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F4E270ED26B87C1100155267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F4E270EF26B87C1100155267 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,9 +89,9 @@
 				F492175526BDE03E0092A626 /* DepthController.swift */,
 				F404F1F726C5621A009564BB /* CollisionController.swift */,
 				F4E270E826B87C1000155267 /* GameViewController.swift */,
-				F492174F26BAE6AF0092A626 /* Poison.sks */,
+				F404F1FD26C95503009564BB /* Poison.sks */,
+				F404F1FE26C95503009564BB /* Assets.xcassets */,
 				F4E270EA26B87C1000155267 /* Main.storyboard */,
-				F4E270ED26B87C1100155267 /* Assets.xcassets */,
 				F4E270EF26B87C1100155267 /* Info.plist */,
 			);
 			path = Corrosion;
@@ -154,10 +154,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F404F1FF26C95503009564BB /* Poison.sks in Resources */,
 				F4E270EC26B87C1000155267 /* Main.storyboard in Resources */,
-				F492175026BAE6AF0092A626 /* Poison.sks in Resources */,
+				F404F20026C95503009564BB /* Assets.xcassets in Resources */,
 				F4E270E326B87C1000155267 /* GameScene.sks in Resources */,
-				F4E270EE26B87C1100155267 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

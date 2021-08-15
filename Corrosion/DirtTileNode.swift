@@ -10,10 +10,11 @@ import SpriteKit
 class DirtTileNode: TileNode {
     override init(size: CGSize) {
         super.init(size: size)
-        maxIntegrity = 100
+        maxIntegrity = 200
         integrity = maxIntegrity
         minDepth = 0
         maxDepth = 100
+        particleEmitter = SKEmitterNode(fileNamed: "Poison")
         texture = SKTexture(imageNamed: "Dirt")
     }
     
